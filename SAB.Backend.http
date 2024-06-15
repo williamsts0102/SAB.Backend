@@ -1,0 +1,6 @@
+@SAB.Backend_HostAddress = http://localhost:5134
+
+GET {{SAB.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
