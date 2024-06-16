@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SAB.Backend.Models.SAB.DB.Alerta.Result;
 
 namespace SAB.Backend.Models.SAB.DB
 {
@@ -12,12 +13,14 @@ namespace SAB.Backend.Models.SAB.DB
             : base(options)
         {
         }
-        
 
+        public virtual DbSet<SP_SAB_DTS_RegistrarAlerta_Result> SP_SAB_DTS_RegistrarAlerta_Result { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SP_SAB_DTS_RegistrarAlerta_Result>().HasNoKey().ToView(null);
             OnModelCreatingPartial(modelBuilder);
         }
 

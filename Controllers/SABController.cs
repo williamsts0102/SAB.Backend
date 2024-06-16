@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SAB.Backend.Business;
+using SAB.Backend.Entities.Request;
 using SAB.Backend.Models.SAB.DB;
+using System.Net;
 
 namespace SAB.Backend.Controllers
 {
@@ -22,10 +24,20 @@ namespace SAB.Backend.Controllers
             _context.Dispose();
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpPost("RegistrarAlerta")]
+        public async Task<IActionResult> RegistrarAlerta([FromBody] RegistrarAlertaRequestDto request)
         {
-            return Ok("_sabBO.Get()");
+            try
+            {
+                var response = await _sabBO.RegistrarAlerta(request);
+                DisposeResources();
+                return StatusCode((int)response.codigo, response.descripcion);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

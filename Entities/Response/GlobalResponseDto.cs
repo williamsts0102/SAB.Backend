@@ -4,7 +4,7 @@ namespace SAB.Backend.Entities.Response
 {
     public class GlobalResponseDto
     {
-        public HttpStatusCode codigoRes { get; set; }
-        public string mensajeRes { get; set; }
+        public HttpStatusCode codigo { get; set; }
+        public string? descripcion { get; set; }
     }
 }
