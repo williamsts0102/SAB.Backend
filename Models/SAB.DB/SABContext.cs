@@ -14,7 +14,7 @@ namespace SAB.Backend.Models.SAB.DB
         {
         }
 
-        public virtual DbSet<SP_SAB_DTS_RegistrarAlerta_Result> SP_SAB_DTS_RegistrarAlerta_Result { get; set; }
+        public virtual DbSet<SP_SAB_DTS_RegistrarAlerta_Result> SP_SAB_DTS_RegistrarAlerta { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 

@@ -22,7 +22,7 @@ namespace SAB.Backend.DataAccess
             {
                 string sql = "EXEC [dbo].[SP_SAB_DTS_RegistrarAlerta] @pstrDepartamento, @pstrProvincia, @pstrDistrito, @pstrDireccion, @pstrLatitud, @pstrLongitud, @pstrDescripcion, @pbitEstado, @pintIdUsuarioRegistro";
 
-                var queryResult = await _context.SP_SAB_DTS_RegistrarAlerta_Result
+                var queryResult = await _context.SP_SAB_DTS_RegistrarAlerta
                     .FromSqlRaw(sql, parameters.ToSqlParameters())
                     .ToListAsync();
 
