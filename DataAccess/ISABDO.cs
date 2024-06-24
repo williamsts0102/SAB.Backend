@@ -6,5 +6,7 @@ namespace SAB.Backend.DataAccess
     public interface ISABDO
     {
         Task<SP_SAB_DTS_RegistrarAlerta_Result> RegistrarAlerta(SP_SAB_DTS_RegistrarAlerta_Parameters parameters);
+        Task<List<SP_SAB_ListarAlerta_Result>> ListarAlerta();
+        Task<SP_SAB_DetalleAlerta_Result> DetalleAlerta(SP_SAB_DetalleAlerta_Parameters parameters);
     }
 }

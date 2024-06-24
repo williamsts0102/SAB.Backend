@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SAB.Backend.Business;
 using SAB.Backend.DataAccess;
 using SAB.Backend.Models.SAB.DB;
+using SAB.Backend.SignalR;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,33 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(setupAction: CorsOptions options =>
+//    {
+//        options.AddPolicy(name: "AllowSpecificOrigin",
+//            configurePolicy: CorsPolicyBuilder builder => builder
+//                .WithOrigins(origins: "http://localhost:4200")
+//                .AllowAnyHeader()
+//                .AllowAnyMethod());
+//    });
+//});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecificOrigin",
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200",
+                                              "https://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                      });
+});
 //builder.Logging.AddLog4Net();
+
+// Configurar SignalR
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<SABContext>(options =>
 {
@@ -85,6 +113,7 @@ app.Use(async (context, next) =>
 
     await next();
 });
+app.UseCors("AllowSpecificOrigin");
 //OWASPSettings END
 
 //app.UseHttpsRedirection();
@@ -94,6 +123,9 @@ app.Use(async (context, next) =>
 //app.UseAuthorization();
 
 app.MapControllers();
+
+// Configurar el endpoint de SignalR
+app.MapHub<AlertHub>("/alerthub");
 
 app.Run();
 #endregion

@@ -35,5 +35,43 @@ namespace SAB.Backend.DataAccess
             }
             return result;
         }
+
+        public async Task<List<SP_SAB_ListarAlerta_Result>> ListarAlerta()
+        {
+            List<SP_SAB_ListarAlerta_Result> result = new List<SP_SAB_ListarAlerta_Result>();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ListarAlerta]";
+
+                result = await _context.SP_SAB_ListarAlerta
+                    .FromSqlRaw(sql)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new List<SP_SAB_ListarAlerta_Result>();
+            }
+            return result;
+        }
+
+        public async Task<SP_SAB_DetalleAlerta_Result> DetalleAlerta(SP_SAB_DetalleAlerta_Parameters parameters)
+        {
+            SP_SAB_DetalleAlerta_Result result = new SP_SAB_DetalleAlerta_Result();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_DetalleAlerta] @pstrCodAlerta";
+
+                var queryResult = await _context.SP_SAB_DetalleAlerta
+                    .FromSqlRaw(sql, parameters.ToSqlParameters())
+                    .ToListAsync();
+
+                result = queryResult.FirstOrDefault() ?? new SP_SAB_DetalleAlerta_Result();
+            }
+            catch (Exception ex)
+            {
+                result = new SP_SAB_DetalleAlerta_Result();
+            }
+            return result;
+        }
     }
 }

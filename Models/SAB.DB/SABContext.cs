@@ -14,13 +14,17 @@ namespace SAB.Backend.Models.SAB.DB
         {
         }
 
-        public virtual DbSet<SP_SAB_DTS_RegistrarAlerta_Result> SP_SAB_DTS_RegistrarAlerta { get; set; }
+        public DbSet<SP_SAB_DTS_RegistrarAlerta_Result> SP_SAB_DTS_RegistrarAlerta { get; set; }
+        public DbSet<SP_SAB_ListarAlerta_Result> SP_SAB_ListarAlerta { get; set; }
+        public DbSet<SP_SAB_DetalleAlerta_Result> SP_SAB_DetalleAlerta { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SP_SAB_DTS_RegistrarAlerta_Result>().HasNoKey().ToView(null);
+            modelBuilder.Entity<SP_SAB_ListarAlerta_Result>().HasNoKey().ToView(null);
+            modelBuilder.Entity<SP_SAB_DetalleAlerta_Result>().HasNoKey().ToView(null);
             OnModelCreatingPartial(modelBuilder);
         }
 

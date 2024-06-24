@@ -2,5 +2,6 @@
 {
     public class RegistrarAlertaResponseDto : GlobalResponseDto
     {
+        public string? codigoAlerta { get; set; }
     }
 }

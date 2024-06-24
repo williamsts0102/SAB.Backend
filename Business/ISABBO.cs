@@ -6,5 +6,7 @@ namespace SAB.Backend.Business
     public interface ISABBO
     {
         Task<RegistrarAlertaResponseDto> RegistrarAlerta(RegistrarAlertaRequestDto request);
+        Task<ListarAlertaResponseDto> ListarAlerta();
+        Task<DetalleAlertaResponseDto> DetalleAlerta(DetalleAlertaRequestDto request);
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using SAB.Backend.Business;
 using SAB.Backend.Entities.Request;
 using SAB.Backend.Models.SAB.DB;
+using SAB.Backend.SignalR;
+using SAB.Backend.SignalR.Clases;
 using System.Net;
 
 namespace SAB.Backend.Controllers
@@ -12,11 +15,13 @@ namespace SAB.Backend.Controllers
     {
         private readonly ISABBO _sabBO;
         private readonly SABContext _context;
+        private readonly IHubContext<AlertHub> _alertHubContext;
 
-        public SABController(ISABBO sabBO, SABContext context)
+        public SABController(ISABBO sabBO, SABContext context, IHubContext<AlertHub> alertHubContext)
         {
             _sabBO = sabBO;
             _context = context;
+            _alertHubContext = alertHubContext;
         }
 
         private void DisposeResources()
@@ -30,8 +35,37 @@ namespace SAB.Backend.Controllers
             try
             {
                 var response = await _sabBO.RegistrarAlerta(request);
+                var detalleAlerta = await _sabBO.DetalleAlerta(new DetalleAlertaRequestDto { pstrCodAlerta = response.codigoAlerta });
+                var alerta = new Alerta()
+                {
+                    strCodAlerta = detalleAlerta.detalleAlerta.strCodAlerta,
+                    strDepartamento = detalleAlerta.detalleAlerta.strDepartamento,
+                    strProvincia = detalleAlerta.detalleAlerta.strProvincia,
+                    strDistrito = detalleAlerta.detalleAlerta.strDistrito,
+                    strDescripcion = detalleAlerta.detalleAlerta.strDescripcion,
+                    strLatitud = detalleAlerta.detalleAlerta.strLatitud,
+                    strLongitud = detalleAlerta.detalleAlerta.strLongitud,
+                    bitEstado = detalleAlerta.detalleAlerta.bitEstado
+                };
+                await _alertHubContext.Clients.All.SendAsync("ReceiveAlert", alerta);
                 DisposeResources();
                 return StatusCode((int)response.codigo, response.descripcion);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("ListarAlerta")]
+        public async Task<IActionResult> ListarAlerta()
+        {
+            try
+            {
+                var response = await _sabBO.ListarAlerta();
+                DisposeResources();
+                return Ok(response.listarAlerta);
             }
             catch (Exception ex)
             {
