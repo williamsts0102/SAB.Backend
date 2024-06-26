@@ -42,9 +42,11 @@ namespace SAB.Backend.Controllers
                     strDepartamento = detalleAlerta.detalleAlerta.strDepartamento,
                     strProvincia = detalleAlerta.detalleAlerta.strProvincia,
                     strDistrito = detalleAlerta.detalleAlerta.strDistrito,
+                    strDireccion = detalleAlerta.detalleAlerta.strDireccion,
                     strDescripcion = detalleAlerta.detalleAlerta.strDescripcion,
                     strLatitud = detalleAlerta.detalleAlerta.strLatitud,
                     strLongitud = detalleAlerta.detalleAlerta.strLongitud,
+                    intIdGrupoPersonal = detalleAlerta.detalleAlerta.intIdGrupoPersonal,
                     bitEstado = detalleAlerta.detalleAlerta.bitEstado
                 };
                 await _alertHubContext.Clients.All.SendAsync("ReceiveAlert", alerta);

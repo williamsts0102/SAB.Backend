@@ -60,9 +60,11 @@ namespace SAB.Backend.Business
                         strDepartamento = item.strDepartamento,
                         strProvincia = item.strProvincia,
                         strDistrito = item.strDistrito,
+                        strDireccion = item.strDireccion,
+                        strDescripcion = item.strDescripcion,
                         strLatitud = item.strLatitud,
                         strLongitud = item.strLongitud,
-                        strDescripcion = item.strDescripcion,
+                        intIdGrupoPersonal = item.intIdGrupoPersonal,
                         bitEstado = item.bitEstado
                     });
                 }
@@ -91,9 +93,11 @@ namespace SAB.Backend.Business
                     strDepartamento = result.strDepartamento,
                     strProvincia = result.strProvincia,
                     strDistrito = result.strDistrito,
+                    strDireccion = result.strDireccion,
+                    strDescripcion = result.strDescripcion,
                     strLatitud = result.strLatitud,
                     strLongitud = result.strLongitud,
-                    strDescripcion = result.strDescripcion,
+                    intIdGrupoPersonal = result.intIdGrupoPersonal,
                     bitEstado = result.bitEstado
                 };
             }
