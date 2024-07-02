@@ -75,5 +75,37 @@ namespace SAB.Backend.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost("DetalleAlerta")]
+        public async Task<IActionResult> DetalleAlerta([FromBody] DetalleAlertaRequestDto request)
+        {
+            try
+            {
+                var response = await _sabBO.DetalleAlerta(request);
+                DisposeResources();
+                return Ok(response.detalleAlerta);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("ObtenerAlertaPorPersonal")]
+        public async Task<IActionResult> ObtenerAlertaPorPersonal([FromBody] ObtenerAlertaPorPersonalRequestDto request)
+        {
+            try
+            {
+                var response = await _sabBO.ObtenerAlertaPorPersonal(request);
+                DisposeResources();
+                return Ok(response.detalleAlerta);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

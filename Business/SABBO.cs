@@ -107,5 +107,35 @@ namespace SAB.Backend.Business
             }
             return response;
         }
+
+        public async Task<ObtenerAlertaPorPersonalResponseDto> ObtenerAlertaPorPersonal(ObtenerAlertaPorPersonalRequestDto request)
+        {
+            var response = new ObtenerAlertaPorPersonalResponseDto();
+            try
+            {
+                var parameters = new SP_SAB_ObtenerAlertaPorPersonal_Parameters
+                {
+                    pintIdPersonal = request.pintIdPersonal
+                };
+                var result = await _sabDO.ObtenerAlertaPorPersonal(parameters);
+                response.detalleAlerta = new DetalleObtenerAlertaPorPersonal
+                {
+                    strCodAlerta = result.strCodAlerta,
+                    strDepartamento = result.strDepartamento,
+                    strProvincia = result.strProvincia,
+                    strDistrito = result.strDistrito,
+                    strDireccion = result.strDireccion,
+                    strDescripcion = result.strDescripcion,
+                    strLatitud = result.strLatitud,
+                    strLongitud = result.strLongitud,
+                    strNombreGrupoPersonal = result.strNombreGrupoPersonal
+                };
+            }
+            catch (Exception ex)
+            {
+                response.detalleAlerta = new DetalleObtenerAlertaPorPersonal();
+            }
+            return response;
+        }
     }
 }

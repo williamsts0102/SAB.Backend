@@ -73,5 +73,25 @@ namespace SAB.Backend.DataAccess
             }
             return result;
         }
+
+        public async Task<SP_SAB_ObtenerAlertaPorPersonal_Result> ObtenerAlertaPorPersonal(SP_SAB_ObtenerAlertaPorPersonal_Parameters parameters)
+        { 
+            SP_SAB_ObtenerAlertaPorPersonal_Result result = new SP_SAB_ObtenerAlertaPorPersonal_Result();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ObtenerAlertaPorPersonal] @pintIdUsuario";
+
+                var queryResult = await _context.SP_SAB_ObtenerAlertaPorPersonal
+                    .FromSqlRaw(sql, parameters.ToSqlParameters())
+                    .ToListAsync();
+
+                result = queryResult.FirstOrDefault() ?? new SP_SAB_ObtenerAlertaPorPersonal_Result();
+            }
+            catch (Exception ex)
+            {
+                result = new SP_SAB_ObtenerAlertaPorPersonal_Result();
+            }
+            return result;
+        }
     }
 }
