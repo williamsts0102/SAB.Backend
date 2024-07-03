@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SAB.Backend.Business;
 using SAB.Backend.DataAccess;
 using SAB.Backend.Models.SAB.DB;
+using SAB.Backend.Providers;
 using SAB.Backend.SignalR;
 using System.Text;
 
@@ -80,8 +81,12 @@ builder.Services.AddAntiforgery(options =>
 //    .AddCookie();
 //OWASPSettings END
 
+builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<ISABBO, SABBO>();
 builder.Services.AddScoped<ISABDO, SABDO>();
+
+var key = builder.Configuration.GetValue<string>("JwtSettings:key");
+var keyBytes = Encoding.ASCII.GetBytes(key);
 
 #endregion;
 

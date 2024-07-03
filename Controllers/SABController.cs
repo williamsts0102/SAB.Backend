@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.SignalR;
 using SAB.Backend.Business;
 using SAB.Backend.Entities.Request;
 using SAB.Backend.Models.SAB.DB;
+using SAB.Backend.Providers;
 using SAB.Backend.SignalR;
 using SAB.Backend.SignalR.Clases;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SAB.Backend.Controllers
 {
@@ -16,12 +19,14 @@ namespace SAB.Backend.Controllers
         private readonly ISABBO _sabBO;
         private readonly SABContext _context;
         private readonly IHubContext<AlertHub> _alertHubContext;
+        private readonly IAuthorizationService _authorizationService;
 
-        public SABController(ISABBO sabBO, SABContext context, IHubContext<AlertHub> alertHubContext)
+        public SABController(ISABBO sabBO, SABContext context, IHubContext<AlertHub> alertHubContext, Providers.IAuthorizationService authorizationService)
         {
             _sabBO = sabBO;
             _context = context;
             _alertHubContext = alertHubContext;
+            _authorizationService = authorizationService;
         }
 
         private void DisposeResources()
@@ -106,6 +111,36 @@ namespace SAB.Backend.Controllers
                 DisposeResources();
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Route("Token")]
+        public async Task<IActionResult> Autenticar([FromBody] AuthorizationRequest authorization)
+        {
+            var encriptado = "";
+            StringBuilder sb = new StringBuilder();
+
+            using (SHA256 hash = SHA256.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+
+                byte[] result = hash.ComputeHash(enc.GetBytes(authorization.Clave));
+
+                foreach (byte b in result)
+                {
+                    sb.Append(b.ToString("x2"));
+                }
+                encriptado = sb.ToString();
+            }
+            authorization.Clave = encriptado;
+
+            var resultado = await _authorizationService.ReturnToken(authorization);
+            if (resultado == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(resultado);
         }
     }
 }

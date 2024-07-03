@@ -93,5 +93,57 @@ namespace SAB.Backend.DataAccess
             }
             return result;
         }
+
+        public async Task<Usuario> GetUsuario(string usuario, string clave)
+        {
+            Usuario usuario_encontrado = await _context.tblUsuario
+                .Where(x => x.Username == usuario && x.Password == clave && x.Activo == true && x.Eliminado == false)
+                .FirstOrDefaultAsync();
+
+            return usuario_encontrado;
+        }
+
+        public async Task<Personal> GetPersonal(int idPersonal)
+        {
+            try
+            {
+                var personal_encontrado = await _context.tblPersonal
+                    .Where(x => x.IdPersonal == idPersonal && x.Activo == true && x.Eliminado == false)
+                    .FirstOrDefaultAsync();
+
+                return personal_encontrado;
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception as needed, e.g., log the error
+                return new Personal();
+            }
+        }
+
+        public async Task<Ciudadano> GetCiudadano(int idCiudadano)
+        {
+            try
+            {
+                var ciudadano_encontrado = await _context.tblCiudadano
+                    .Where(x => x.IdCiudadano == idCiudadano && x.Activo == true && x.Eliminado == false)
+                    .FirstOrDefaultAsync();
+
+                return ciudadano_encontrado;
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception as needed, e.g., log the error
+                return new Ciudadano();
+            }
+        }
+
+        public async Task<Rol> GetRol(int idRol)
+        {
+            Rol rol_encontrado = await _context.tblRol
+                .Where(x => x.IdRol == idRol)
+                .FirstOrDefaultAsync();
+
+            return rol_encontrado;
+        }
     }
 }
