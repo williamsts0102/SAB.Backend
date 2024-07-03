@@ -79,7 +79,7 @@ namespace SAB.Backend.DataAccess
             SP_SAB_ObtenerAlertaPorPersonal_Result result = new SP_SAB_ObtenerAlertaPorPersonal_Result();
             try
             {
-                string sql = "EXEC [dbo].[SP_SAB_ObtenerAlertaPorPersonal] @pintIdUsuario";
+                string sql = "EXEC [dbo].[SP_SAB_ObtenerAlertaPorPersonal] @pintIdPersonal";
 
                 var queryResult = await _context.SP_SAB_ObtenerAlertaPorPersonal
                     .FromSqlRaw(sql, parameters.ToSqlParameters())
