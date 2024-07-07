@@ -12,5 +12,8 @@ namespace SAB.Backend.Business
         Task<ActualizarAlertaResponseDto> ActualizarAlerta(ActualizarAlertaRequestDto request);
         Task<DescartarAlertaResponseDto> DescartarAlerta(DescartarAlertaRequestDto request);
         Task<ObtenerGruposPersonalesActivosResponseDto> ObtenerGruposPersonalesActivos();
+        Task<ListarAlertasFullResponseDto> ListarAlertasFull();
+        Task<ListarGruposPersonalesResponseDto> ListarGruposPersonales();
+        Task<ListarPersonalPorGrupoResponseDto> ListarPersonalPorGrupo(ListarPersonalPorGrupoRequestDto request);
     }
 }

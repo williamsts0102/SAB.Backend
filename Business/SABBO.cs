@@ -203,5 +203,84 @@ namespace SAB.Backend.Business
             }
             return response;
         }
+
+        public async Task<ListarAlertasFullResponseDto> ListarAlertasFull()
+        {
+            var response = new ListarAlertasFullResponseDto();
+            try
+            {
+                var result = await _sabDO.ListarAlertasFull();
+                response.listarAlertasFull = new List<ListarAlertasFull>();
+                foreach (var item in result)
+                {
+                    response.listarAlertasFull.Add(new ListarAlertasFull
+                    {
+                        bitEstado = item.bitEstado,
+                        bitEliminado = item.bitEliminado
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.listarAlertasFull = new List<ListarAlertasFull>();
+            }
+            return response;
+        }
+
+        public async Task<ListarGruposPersonalesResponseDto> ListarGruposPersonales()
+        {
+            var response = new ListarGruposPersonalesResponseDto();
+            try
+            {
+                var result = await _sabDO.ListarGruposPersonales();
+                response.listarGruposPersonales = new List<ListarGruposPersonales>();
+                foreach (var item in result)
+                {
+                    response.listarGruposPersonales.Add(new ListarGruposPersonales
+                    {
+                        strCodGrupoPersonal = item.strCodGrupoPersonal,
+                        strNombreGrupoPersonal = item.strNombreGrupoPersonal,
+                        strDescripcionGrupoPersonal = item.strDescripcionGrupoPersonal
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.listarGruposPersonales = new List<ListarGruposPersonales>();
+            }
+            return response;
+        }
+
+        public async Task<ListarPersonalPorGrupoResponseDto> ListarPersonalPorGrupo(ListarPersonalPorGrupoRequestDto request)
+        {
+            var response = new ListarPersonalPorGrupoResponseDto();
+            try
+            {
+                var parameters = new SP_SAB_ListarPersonalPorGrupo_Parameters
+                {
+                    pstrCodGrupoPersonal = request.pstrCodGrupoPersonal
+                };
+                var result = await _sabDO.ListarPersonalPorGrupo(parameters);
+                response.listarPersonalPorGrupo = new List<ListarPersonalPorGrupo>();
+                foreach (var item in result)
+                {
+                    response.listarPersonalPorGrupo.Add(new ListarPersonalPorGrupo
+                    {
+                        strCodPersonal = item.strCodPersonal,
+                        strNombreCompleto = item.strNombreCompleto,
+                        strDNI = item.strDNI,
+                        strDireccion = item.strDireccion,
+                        strTelefono = item.strTelefono,
+                        strCorreo = item.strCorreo
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.listarPersonalPorGrupo = new List<ListarPersonalPorGrupo>();
+            }
+            return response;
+        }
     }
+
 }

@@ -27,6 +27,9 @@ namespace SAB.Backend.Models.SAB.DB
         public DbSet<SP_SAB_ActualizarAlerta_Result> SP_SAB_ActualizarAlerta { get; set; }
         public DbSet<SP_SAB_DescartarAlerta_Result> SP_SAB_DescartarAlerta { get; set; }
         public DbSet<SP_SAB_ObtenerGruposPersonalesActivos_Result> SP_SAB_ObtenerGruposPersonalesActivos { get; set; }
+        public DbSet<SP_SAB_ListarAlertasFull_Result> SP_SAB_ListarAlertasFull { get; set; }
+        public DbSet<SP_SAB_ListarGruposPersonales_Response> SP_SAB_ListarGruposPersonales { get; set; }
+        public DbSet<SP_SAB_ListarPersonalPorGrupo_Result> SP_SAB_ListarPersonalPorGrupo { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
@@ -266,6 +269,9 @@ namespace SAB.Backend.Models.SAB.DB
             modelBuilder.Entity<SP_SAB_ActualizarAlerta_Result>().HasNoKey().ToView(null);
             modelBuilder.Entity<SP_SAB_DescartarAlerta_Result>().HasNoKey().ToView(null);
             modelBuilder.Entity<SP_SAB_ObtenerGruposPersonalesActivos_Result>().HasNoKey().ToView(null);
+            modelBuilder.Entity<SP_SAB_ListarAlertasFull_Result>().HasNoKey().ToView(null);
+            modelBuilder.Entity<SP_SAB_ListarGruposPersonales_Response>().HasNoKey().ToView(null);
+            modelBuilder.Entity<SP_SAB_ListarPersonalPorGrupo_Result>().HasNoKey().ToView(null);
             OnModelCreatingPartial(modelBuilder);
         }
 

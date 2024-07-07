@@ -205,5 +205,60 @@ namespace SAB.Backend.DataAccess
             }
             return result;
         }
+
+
+        public async Task<List<SP_SAB_ListarAlertasFull_Result>> ListarAlertasFull()
+        {
+            List<SP_SAB_ListarAlertasFull_Result> result = new List<SP_SAB_ListarAlertasFull_Result>();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ListarAlertasFull]";
+
+                result = await _context.SP_SAB_ListarAlertasFull
+                    .FromSqlRaw(sql)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new List<SP_SAB_ListarAlertasFull_Result>();
+            }
+            return result;
+        }
+
+        public async Task<List<SP_SAB_ListarGruposPersonales_Response>> ListarGruposPersonales()
+        {
+            List<SP_SAB_ListarGruposPersonales_Response> result = new List<SP_SAB_ListarGruposPersonales_Response>();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ListarGruposPersonales]";
+
+                result = await _context.SP_SAB_ListarGruposPersonales
+                    .FromSqlRaw(sql)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new List<SP_SAB_ListarGruposPersonales_Response>();
+            }
+            return result;
+        }
+
+        public async Task<List<SP_SAB_ListarPersonalPorGrupo_Result>> ListarPersonalPorGrupo(SP_SAB_ListarPersonalPorGrupo_Parameters parameters)
+        {
+            List<SP_SAB_ListarPersonalPorGrupo_Result> result = new List<SP_SAB_ListarPersonalPorGrupo_Result>();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ListarPersonalPorGrupo] @pstrCodGrupoPersonal";
+
+                result = await _context.SP_SAB_ListarPersonalPorGrupo
+                    .FromSqlRaw(sql, parameters.ToSqlParameters())
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new List<SP_SAB_ListarPersonalPorGrupo_Result>();
+            }
+            return result;
+        }
     }
 }
