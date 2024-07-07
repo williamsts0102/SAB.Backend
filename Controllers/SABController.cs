@@ -142,5 +142,53 @@ namespace SAB.Backend.Controllers
 
             return Ok(resultado);
         }
+
+        [HttpPost("ActualizarAlerta")]
+        public async Task<IActionResult> ActualizarAlerta([FromBody] ActualizarAlertaRequestDto request)
+        {
+            try
+            {
+                var response = await _sabBO.ActualizarAlerta(request);
+                DisposeResources();
+                return StatusCode((int)response.codigo, response.descripcion);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("DescartarAlerta")]
+        public async Task<IActionResult> DescartarAlerta([FromBody] DescartarAlertaRequestDto request)
+        {
+            try
+            {
+                var response = await _sabBO.DescartarAlerta(request);
+                DisposeResources();
+                return StatusCode((int)response.codigo, response.descripcion);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("ObtenerGruposPersonalesActivos")]
+        public async Task<IActionResult> ObtenerGruposPersonalesActivos()
+        {
+            try
+            {
+                var response = await _sabBO.ObtenerGruposPersonalesActivos();
+                DisposeResources();
+                return Ok(response.obtenerGruposPersonalesActivos);
+            }
+            catch (Exception ex)
+            {
+                DisposeResources();
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

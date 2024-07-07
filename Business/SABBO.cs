@@ -137,5 +137,71 @@ namespace SAB.Backend.Business
             }
             return response;
         }
+
+        public async Task<ActualizarAlertaResponseDto> ActualizarAlerta(ActualizarAlertaRequestDto request)
+        {
+            var response = new ActualizarAlertaResponseDto();
+            try
+            {
+                var parameters = new SP_SAB_ActualizarAlerta_Parameters
+                {
+                    pintIdGrupoPersonal = request.pintIdGrupoPersonal,
+                    pstrCodAlerta = request.pstrCodAlerta
+                };
+                var result = await _sabDO.ActualizarAlerta(parameters);
+                response.codigo = (HttpStatusCode)result.codigo!;
+                response.descripcion = result.descripcion;
+            }
+            catch (Exception ex)
+            {
+                response.codigo = HttpStatusCode.InternalServerError;
+                response.descripcion = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<DescartarAlertaResponseDto> DescartarAlerta(DescartarAlertaRequestDto request)
+        {
+            var response = new DescartarAlertaResponseDto();
+            try
+            {
+                var parameters = new SP_SAB_DescartarAlerta_Parameters
+                {
+                    pstrCodAlerta = request.pstrCodAlerta
+                };
+                var result = await _sabDO.DescartarAlerta(parameters);
+                response.codigo = (HttpStatusCode)result.codigo!;
+                response.descripcion = result.descripcion;
+            }
+            catch (Exception ex)
+            {
+                response.codigo = HttpStatusCode.InternalServerError;
+                response.descripcion = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ObtenerGruposPersonalesActivosResponseDto> ObtenerGruposPersonalesActivos()
+        {
+            var response = new ObtenerGruposPersonalesActivosResponseDto();
+            try
+            {
+                var result = await _sabDO.ObtenerGruposPersonalesActivos();
+                response.obtenerGruposPersonalesActivos = new List<GruposPersonalesActivosDto>();
+                foreach (var item in result)
+                {
+                    response.obtenerGruposPersonalesActivos.Add(new GruposPersonalesActivosDto
+                    {
+                        intIdGrupoPersonal = item.intIdGrupoPersonal,
+                        strNombreGrupoPersonal = item.strNombreGrupoPersonal
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.obtenerGruposPersonalesActivos = new List<GruposPersonalesActivosDto>();
+            }
+            return response;
+        }
     }
 }

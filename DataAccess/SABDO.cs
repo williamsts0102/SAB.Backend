@@ -145,5 +145,65 @@ namespace SAB.Backend.DataAccess
 
             return rol_encontrado;
         }
+
+        public async Task<SP_SAB_ActualizarAlerta_Result> ActualizarAlerta(SP_SAB_ActualizarAlerta_Parameters parameters)
+        {
+            SP_SAB_ActualizarAlerta_Result result = new SP_SAB_ActualizarAlerta_Result();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ActualizarAlerta] @pintIdGrupoPersonal, @pstrCodAlerta";
+
+                var queryResult = await _context.SP_SAB_ActualizarAlerta
+                    .FromSqlRaw(sql, parameters.ToSqlParameters())
+                    .ToListAsync();
+
+                result = queryResult.FirstOrDefault() ?? new SP_SAB_ActualizarAlerta_Result();
+            }
+            catch (Exception ex)
+            {
+                result.codigo = (int)HttpStatusCode.InternalServerError;
+                result.descripcion = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<SP_SAB_DescartarAlerta_Result> DescartarAlerta(SP_SAB_DescartarAlerta_Parameters parameters)
+        {
+            SP_SAB_DescartarAlerta_Result result = new SP_SAB_DescartarAlerta_Result();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_DescartarAlerta] @pstrCodAlerta";
+
+                var queryResult = await _context.SP_SAB_DescartarAlerta
+                    .FromSqlRaw(sql, parameters.ToSqlParameters())
+                    .ToListAsync();
+
+                result = queryResult.FirstOrDefault() ?? new SP_SAB_DescartarAlerta_Result();
+            }
+            catch (Exception ex)
+            {
+                result.codigo = (int)HttpStatusCode.InternalServerError;
+                result.descripcion = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<List<SP_SAB_ObtenerGruposPersonalesActivos_Result>> ObtenerGruposPersonalesActivos()
+        {
+            List<SP_SAB_ObtenerGruposPersonalesActivos_Result> result = new List<SP_SAB_ObtenerGruposPersonalesActivos_Result>();
+            try
+            {
+                string sql = "EXEC [dbo].[SP_SAB_ObtenerGruposPersonalesActivos]";
+
+                result = await _context.SP_SAB_ObtenerGruposPersonalesActivos
+                    .FromSqlRaw(sql)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new List<SP_SAB_ObtenerGruposPersonalesActivos_Result>();
+            }
+            return result;
+        }
     }
 }

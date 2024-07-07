@@ -10,7 +10,7 @@
         public string? strDescripcion { get; set; }
         public string? strLatitud { get; set; }
         public string? strLongitud { get; set; }
-        public string? intIdGrupoPersonal { get; set; }
+        public int? intIdGrupoPersonal { get; set; }
         public bool? bitEstado { get; set; }
     }
 }

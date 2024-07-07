@@ -14,5 +14,9 @@ namespace SAB.Backend.DataAccess
         Task<Personal> GetPersonal(int idPersonal);
         Task<Ciudadano> GetCiudadano(int idCiudadano);
         Task<Rol> GetRol(int idRol);
+        Task<SP_SAB_ActualizarAlerta_Result> ActualizarAlerta(SP_SAB_ActualizarAlerta_Parameters parameters);
+        Task<SP_SAB_DescartarAlerta_Result> DescartarAlerta(SP_SAB_DescartarAlerta_Parameters parameters);
+        Task<List<SP_SAB_ObtenerGruposPersonalesActivos_Result>> ObtenerGruposPersonalesActivos();
+
     }
 }
